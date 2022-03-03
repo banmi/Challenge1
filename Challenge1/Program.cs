@@ -25,23 +25,17 @@ namespace ProgChallengeStart
                 Console.WriteLine("What's your guess?");
                 var theGuess = Console.ReadLine();
                 int guess;
-                try
-                {
+                
                     bool result = Int32.TryParse(theGuess, out guess);
-                    if (!result)
+                    if (result)
                     {
-                        throw new Exception();
+                    return guess;
                     }
                     else
                     {
-                        return guess;
-                    }
-                }
-                catch (Exception)
-                {
                     Console.WriteLine("That doesn't look like a number. Try again.");
-                }
-                return 0;
+                    }
+                return -2;
             };
 
             bool isValidGuess(int numberToValidate)
@@ -73,6 +67,7 @@ namespace ProgChallengeStart
             while (currentGuess != theNumber)
             {
                 exit();
+                Console.WriteLine("debug line - current value -> " +currentGuess);
                 if (isValidGuess(currentGuess))
                 {
                     currentGuess = guessNumber();
