@@ -70,20 +70,15 @@ namespace ProgChallengeStart
                 try
                 {
                     bool result = Int32.TryParse(theGuess, out guess);
-                    if (!result)
+                    if (result)
                     {
-                        throw new Exception();
+                    return guess;
                     }
                     else
                     {
-                        return guess;
-                    }
-                }
-                catch (Exception)
-                {
                     Console.WriteLine("That doesn't look like a number. Try again.");
-                }
-                return 0;
+                    }
+                return -2;
             };
 
             void classifyGuess(int numberToValidate)
