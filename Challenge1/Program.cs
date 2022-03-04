@@ -5,11 +5,53 @@ namespace ProgChallengeStart
     class Program
     {
         private static int currentGuess;
+        private static int guess;
+        public enum classification
+                {
+                TOO_LOW,
+                TOO_HIGH,
+                CORRECT,
+                OUT_RANGE
+                };
 
         static void Main(string[] args)
         {
+            while(true)
+            {
+                try
+                {
+                    guess = guessNumber();
+                }
+                catch
+                {
+                    Console.WriteLine("That doesn't look like a number. Try again.");
+                    continue;
+                }
+
+                classification myClassification = classifyGuess(guess);
+                if (myClassification == classification.TOO_LOW)
+                    {
+                    Console.WriteLine("Nope, higher than that.");
+                    }
+                else if (myClassification == classification.TOO_HIGH)
+                    {
+                    Console.WriteLine("Nope, lower than that.");
+                    }
+                else if (myClassification == classification.CORRECT)
+                    {
+                    Console.WriteLine("$You got it in {guessCount} guesses");
+                    }
+                else if (myClassification == classification.OUT_RANGE)
+                    {
+                    Console.WriteLine($"Your value {numberToValidate} is out of range!");
+                    }
+            }
+            
+
+
+
             // Choose a random number between 0 and 30
-            int theNumber = new Random().Next(30);
+            int rolledNumber = new Random().Next(30);
 
             // Print the instructions
             Console.WriteLine("I'm thinking of a number between 0 and 30.");
@@ -24,7 +66,7 @@ namespace ProgChallengeStart
             {
                 Console.WriteLine("What's your guess?");
                 var theGuess = Console.ReadLine();
-                int guess;
+                //int guess;
                 try
                 {
                     bool result = Int32.TryParse(theGuess, out guess);
@@ -44,24 +86,26 @@ namespace ProgChallengeStart
                 return 0;
             };
 
-            bool isValidGuess(int numberToValidate)
-            {
+            void classifyGuess(int numberToValidate)
+                {
+
                 if (numberToValidate > 30 || numberToValidate < -1)
-                {
-                    Console.WriteLine($"Your value {numberToValidate} is out of range!");
-                    isValid = false;
-                }
+                    {
+                    myClassification = classification.OUT_RANGE;
+                    }
                 else
-                {
+                    {
                     // Tell lower or higher than the guess
-                    Console.WriteLine("Nope, {0} than that.", numberToValidate < theNumber ? "higher" : "lower");
+                    Console.WriteLine("Nope, {0} than that.", numberToValidate < rolledNumber ? "higher" : "lower");
                     isValid = true;
+                    }
                 }
+            
+            
 
-                return isValid;
-            }
+                
 
-            void exit()
+            void checkForExit()
             {
                 if (currentGuess == -1)
                 {
@@ -70,10 +114,10 @@ namespace ProgChallengeStart
             }
 
             currentGuess = guessNumber();
-            while (currentGuess != theNumber)
+            while (currentGuess != rolledNumber)
             {
-                exit();
-                if (isValidGuess(currentGuess))
+                checkForExit();
+                if (classifyGuess(currentGuess))
                 {
                     currentGuess = guessNumber();
                     guessCount++;
@@ -82,7 +126,7 @@ namespace ProgChallengeStart
                 {
                     currentGuess = guessNumber();
                 }
-                if (currentGuess == theNumber)
+                if (currentGuess == rolledNumber)
                 {
                     Console.WriteLine($"You got it in {guessCount} guesses");
                 }
@@ -90,3 +134,8 @@ namespace ProgChallengeStart
         }
     }
 }
+
+            
+
+            
+
